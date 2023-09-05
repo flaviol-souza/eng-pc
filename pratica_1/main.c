@@ -31,15 +31,70 @@ void addComponent(struct COMPONENT components[]){
 
 void listComponents(struct COMPONENT components[]){
     printf("\n\nLista de Componentes");
-    //printf("\nCodigo,Nome,Quantidade");
     printf("\n%-10s %-20s %-10s %-10s\n","Codigo","Nome","Quantidade", "V. Unitario");
     struct COMPONENT comp;
     int i;
     for(i = 0; i < lastComponent; i++){
         comp = components[i];
-        //printf("\n%i,%s,%d",comp.code, comp.name, comp.quantity);
         printf("\n%-10i %-20s %-10d %-10.2f",comp.code, comp.name, comp.quantity, comp.unit_value);
     }
+}
+
+struct COMPONENT* findComponent(struct COMPONENT components[], int code){
+    int i = 0;    
+    for(i = 0; i < lastComponent; i++){
+        if(components[i].code == code){
+            return &components[i];
+        }
+    }
+    return NULL;
+}
+
+void searchComponent(struct COMPONENT components[]){
+    int code;
+    printf("\n\tInforme o codigo do componente desejado:");
+    scanf("%d", &code);
+    struct COMPONENT* component = findComponent(components, code);
+    if(component != NULL){
+        printf("\n\tComponente (%d) %s contem %d quantidades de valor %f.", component->code, component->name, component->quantity, component->unit_value);
+    } else {
+        printf("\n\tNao foi encontrado nenhum componente com o codigo %d", code);
+    }
+}
+
+void editComponent(struct COMPONENT components[]){
+    int code;
+    printf("\n\tEDICAO DE COMPONENTE");
+    printf("\n\tInforme o codigo do componente desejado:");
+    scanf("%d", &code);
+    struct COMPONENT* editComp = findComponent(components, code);
+    if(editComp == NULL){
+        printf("COMPONENT NAO ENCONTRADO");    
+    } else {
+        printf("COMPONENT ENCONTRADO");
+        printf("\n\tInforme o novo nome do componente %s:",editComp->name);
+        scanf("%s",editComp->name);
+        printf("\n\tInforme a nova quantidade do componente:");
+        scanf("%d", &editComp->quantity);
+        printf("\n\tInforme o novo valor unitario do componente:");
+        scanf("%f", &editComp->unit_value);  
+        printf("\n\nComponente %s (%d) Editado com Sucesso!",editComp->name, editComp->code);
+    }  
+}
+
+void deleteComponent(struct COMPONENT components[]){
+    int code;
+    printf("\n\nEXCLUSAO DE COMPONENTE");
+    printf("\n\tInforme o codigo do componente a ser excluido:");
+    scanf("%d", &code);
+    int i = 0;
+    for(i=0; i < lastComponent; i++){
+        if(components[i].code >= code){
+           components[i] = components[i+1];            
+        }
+    }
+    lastComponent--;
+    printf("\n\tComponente de codigo %d excluido com sucesso!", code);    
 }
 
 void main()
@@ -49,8 +104,9 @@ void main()
     do {
         printf("\n1. Adicionar Componente");
         printf("\n2. Listar Componentes");
-        printf("\n3. Editar Componente");
-        printf("\n4. Excluir Componente");
+        printf("\n3. Buscar Componente");
+        printf("\n4. Editar Componente");
+        printf("\n5. Excluir Componente");
         printf("\n0. Sair\n");
 
         printf("\tEscolha uma opcao:");
@@ -60,24 +116,25 @@ void main()
         {
             case 1:
                 addComponent(components);
-                printf("%d", opcao);
                 break;
             case 2:
                 listComponents(components);
                 break;
             case 3:
-                printf("\nEscolhe editar");
+                searchComponent(components);
                 break;
             case 4:
-                printf("\nEscolhe excluir");
+                editComponent(components);
+                break;
+            case 5:
+                deleteComponent(components);
                 break;
             case 0:
-                printf("\ntchau e bencao");
+                printf("\ntchau e benca");
                 break;
             default:
                 printf("\nOpcao invalida");
                 break;
         }
     }while (opcao != 0);
-
 }
