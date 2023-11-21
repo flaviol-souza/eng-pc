@@ -74,6 +74,39 @@ void listaConstatos(){
     fclose(arquivo);
 }
 
+void buscarContatoNome(){
+    char nome[100];
+    printf("\n\n\tDigite o nome do contato:");
+    scanf("%s", nome);
+    
+    FILE *arquivo = fopen(NOME_ARQUIVO_AGENDA, "r");
+    if(arquivo == NULL){
+        printf("Erro ao ler o arquivo");
+        return;
+    }
+
+    CONTATO contato;
+    int encontrado = 0;
+    while(fscanf(arquivo, "%d,%99[^,],%14[^\n]", &contato.id, contato.nome, contato.telefone) == 3){
+        if(strstr(contato.nome, nome)){
+            if(!encontrado){
+                printf("|%-3s|%20s|%-15s|\n","Id", "Nome", "Telefone");
+                printf("|---|--------------------|---------------|\n");
+            }                
+            printf("|%-3d|%-20s|%15s|\n", contato.id, contato.nome, contato.telefone);
+            encontrado++;
+        }
+    }
+
+    if(!encontrado){
+        printf("\n\nNenhum contato encontrado!");
+    } else{
+        printf("\n\n%d Contato(s) encontrado(s)", encontrado);
+    }
+
+    fclose(arquivo);    
+}
+
 void main(){
     int qtdContatos = contaContatosAgenda();
     if(qtdContatos > 0){
@@ -85,6 +118,7 @@ void main(){
         printf("\nEscolha uma opcao:");
         printf("\n\t1. Cadastre um contato.");
         printf("\n\t2. Consulte a agenda de contatos.");
+        printf("\n\t3. Consulte o contato por nome.");
         printf("\n\t0. Sair.\n");
         scanf("%d", &opcao);
 
@@ -98,7 +132,10 @@ void main(){
                 break;
             case 2:
                 listaConstatos();
-                break;        
+                break; 
+            case 3:
+                buscarContatoNome();
+                break;
             default:
                 printf("\nOpcao invalida!");
         }
