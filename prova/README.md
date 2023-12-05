@@ -32,3 +32,85 @@ Na parte 5, o programa principal (`main`) é criado. Um menu interativo permite 
 - Exibir todas as tarefas na lista.
 - Sair do programa.
 O loop do menu permite que o usuário execute várias operações até optar por sair.
+
+## Prova P2 (27/11/2023) -  Bolsa de Valores/Relatório de Operações
+
+**Bolsa de Valores - Relatório de Operações**
+
+Este programa em C trata de operações na Bolsa de Valores, gerando relatórios de saldo para cada cliente com base em operações de compra e venda.
+
+**Parte 1 - Estrutura de Dados**
+
+Defina uma estrutura de dados chamada `OPERACAO` que contém os seguintes campos:
+- `CodigoCliente` (inteiro)
+- `CodigoOperacao` ('V' para Venda, 'C' para Compra)
+- `QuantidadeTitulos` (inteiro)
+- `ValorUnitario` (real)
+
+**Parte 2 - Leitura do Arquivo de Operações**
+
+Implemente uma função para ler o arquivo de operações chamado "operacoes.csv". Cada registro no arquivo contém uma operação da Bolsa.
+
+*Exemplo de entrada ("operacoes.csv"):*
+```plaintext
+NumeroCliente,Operacao,QuantidadeTitulos,ValorUnitario
+48,C,1,10.0
+48,V,2,15.5
+20,C,5,8.3
+20,V,3,12.7
+2,C,10,5.2
+```
+
+**Parte 3 - Cálculo do Saldo Apurado**
+
+Crie funções para calcular o saldo apurado de cada cliente. O saldo apurado é a diferença entre o valor total vendido e o valor total comprado por um cliente.
+
+*Exemplo de saldo das operações do cliente 20:*
+- Compra: 5 títulos a R$8.3 cada, totalizando R$41.5
+- Venda: 3 títulos a R$12.7 cada, totalizando R$38.1
+- Saldo Apurado = R$41.5 - R$38.1 = R$3.4
+
+**Parte 4 - Liste Resultados**
+
+Implemente uma função que apresente o consolidado dos resultados das operações, os mesmos do arquivo.
+
+*Exemplo de listagem no console:*
+```plaintext
+Número Cliente | Saldo Apurado | Tipo de Saldo
+----------------------------------------------
+48             | 7.5           | Credor
+20             | 3.4           | Credor
+2              | 52.0          | Credor
+```
+
+**Parte 5 - Geração do Arquivo de Resultados**
+
+Implemente uma função que gere um arquivo de texto chamado "resultados.txt" contendo as seguintes informações para cada cliente:
+- Número do cliente
+- Saldo apurado
+- Tipo de saldo ('C' para credor, 'D' para devedor)
+
+*Exemplo de saída no arquivo "resultados.txt":*
+```plaintext
+Número Cliente | Saldo Apurado | Tipo de Saldo
+----------------------------------------------
+48             | 7.5           | Credor
+20             | 3.4           | Credor
+2              | 52.0          | Credor
+```
+
+**Parte 6 - Menu Interativo/Programa Principal**
+
+No programa principal (main), crie um menu interativo com as seguintes opções:
+a) Gerar relatório de saldo de operações por cliente.
+b) Listar saldo de operações por cliente.
+c) Sair do programa.
+
+*Exemplo de Saída (console ou arquivo "resultados.txt"):*
+```plaintext
+Número Cliente | Saldo Apurado | Tipo de Saldo
+----------------------------------------------
+48             | 7.5           | Credor
+20             | -50.8         | Devedor
+2              | 52.0          | Credor
+```
